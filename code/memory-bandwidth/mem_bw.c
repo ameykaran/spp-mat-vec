@@ -3,33 +3,32 @@
 #include <string.h>
 #include <time.h>
 
-#define SIZE (1024*1024*1024) // 1GB
+#define SIZE (1024 * 1024 * 1024) // 1GB
 #define ELEMENTS (SIZE / sizeof(double))
 #define BILLION 1000000000L
 
 double data[ELEMENTS];
 
-void init_array() {
-    for (size_t i = 0; i < ELEMENTS; i++) {
+void init_array()
+{
+    for (size_t i = 0; i < ELEMENTS; i++)
         data[i] = (double)i;
-    }
 }
 
-double read_array() {
+double read_array()
+{
     double sum = 0;
-    for (size_t i = 0; i < ELEMENTS; i++) {
+    for (size_t i = 0; i < ELEMENTS; i++)
         sum += data[i];
-    }
     return sum;
 }
 
-int main() {
+int main()
+{
     struct timespec start, end;
     double time_used, bandwidth;
 
-    printf("Initializing array...\n");
     init_array();
-    printf("Reading array...\n");
 
     clock_gettime(CLOCK_MONOTONIC, &start);
     double sum = read_array();

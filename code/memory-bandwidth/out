@@ -1,0 +1,36 @@
+rm mem_o0 mem_o1 mem_o2 mem_o3 mem_vec mem_omp mem_omp_vec 
+gcc -O0 mem_bw.c -o mem_o0	
+gcc -O1 mem_bw.c -o mem_o1
+gcc -O2 mem_bw.c -o mem_o2
+gcc -O3 mem_bw.c -o mem_o3
+gcc -O3 -march=native -ftree-vectorize -funroll-loops -ffast-math -mavx2 -mfma mem_bw.c -o mem_vec
+gcc -O3 -fopenmp mem_bw.c -o mem_omp
+gcc -O3 -march=native -ftree-vectorize -funroll-loops -ffast-math -mavx2 -mfma mem_bw.c -o mem_omp_vec
+
+Sum: 9007199187632128.000000
+Time taken: 0.25430274 seconds
+Estimated Read Bandwidth: 3.93 GB/s
+
+Sum: 9007199187632128.000000
+Time taken: 0.08524438 seconds
+Estimated Read Bandwidth: 11.73 GB/s
+
+Sum: 9007199187632128.000000
+Time taken: 0.08238218 seconds
+Estimated Read Bandwidth: 12.14 GB/s
+
+Sum: 9007199187632128.000000
+Time taken: 0.07153778 seconds
+Estimated Read Bandwidth: 13.98 GB/s
+
+Sum: 9007199187632128.000000
+Time taken: 0.04121886 seconds
+Estimated Read Bandwidth: 24.26 GB/s
+
+Sum: 9007199187632128.000000
+Time taken: 0.07131193 seconds
+Estimated Read Bandwidth: 14.02 GB/s
+
+Sum: 9007199187632128.000000
+Time taken: 0.04310856 seconds
+Estimated Read Bandwidth: 23.20 GB/s
