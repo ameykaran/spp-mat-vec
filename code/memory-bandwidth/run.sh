@@ -1,5 +1,6 @@
 make clean
 make all
+echo
 
 ./mem_o0
 echo
@@ -20,8 +21,3 @@ echo
 echo
 
 ./mem_omp_vec
-echo
-
-
-
-

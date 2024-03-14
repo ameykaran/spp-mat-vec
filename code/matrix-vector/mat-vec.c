@@ -8,34 +8,37 @@ double matrix[MATRIX_SIZE][MATRIX_SIZE];
 double vector[MATRIX_SIZE];
 double result[MATRIX_SIZE];
 
-void initialize() {
-    // Initialize matrix and vector with random values
+// Initialize matrix and vector with random values
+void initialize()
+{
     srand(time(NULL));
-    for (int i = 0; i < MATRIX_SIZE; i++) {
-        for (int j = 0; j < MATRIX_SIZE; j++) {
+    for (int i = 0; i < MATRIX_SIZE; i++)
+    {
+        for (int j = 0; j < MATRIX_SIZE; j++)
             matrix[i][j] = (double)rand() / RAND_MAX;
-        }
         vector[i] = (double)rand() / RAND_MAX;
     }
 }
 
-void matrix_vector_multiply() {
-    // Perform matrix-vector multiplication
-    for (int i = 0; i < MATRIX_SIZE; i++) {
+// Perform matrix-vector multiplication
+void matrix_vector_multiply()
+{
+    for (int i = 0; i < MATRIX_SIZE; i++)
+    {
         result[i] = 0.0;
-        for (int j = 0; j < MATRIX_SIZE; j++) {
+        for (int j = 0; j < MATRIX_SIZE; j++)
             result[i] += matrix[i][j] * vector[j];
-        }
     }
 }
 
-int main() {
+int main()
+{
     initialize();
 
     clock_t start_time = clock();
     matrix_vector_multiply();
     clock_t end_time = clock();
-    double elapsed_time = ((double) (end_time - start_time)) / CLOCKS_PER_SEC;
+    double elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
 
     // Print time taken
     printf("Time taken: %f seconds\n", elapsed_time);

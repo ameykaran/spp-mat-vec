@@ -16,10 +16,10 @@ vec:
 	gcc -O3 -march=native -ftree-vectorize -funroll-loops -ffast-math -mavx2 -mfma mem_bw.c -o mem_vec
 
 omp:
-	gcc -O3 -fopenmp mem_bw.c -o mem_omp
+	gcc -O3 -march=native -mtune=native -fopenmp mem_bw.c -o mem_omp
 
 omp_vec:
-	gcc -O3 -march=native -ftree-vectorize -funroll-loops -ffast-math -mavx2 -mfma mem_bw.c -o mem_omp_vec
+	gcc -O3 -march=native -mtune=native -ftree-vectorize -funroll-loops -ffast-math -mavx2 -mfma mem_bw.c -o mem_omp_vec
 
 clean:
 	rm mem_o0 mem_o1 mem_o2 mem_o3 mem_vec mem_omp mem_omp_vec 
