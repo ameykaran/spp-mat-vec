@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
-#include <omp.h>
+#include <immintrin.h>
 
 #define MATRIX_SIZE 1028
 
@@ -17,7 +17,6 @@ long long current_time()
     return (long long)tv.tv_sec * 1000000LL + (long long)tv.tv_usec;
 }
 
-// Initialize matrix and vector with random values
 void initialize()
 {
     int i;
@@ -33,46 +32,32 @@ void initialize()
     }
 }
 
-// // Perform matrix-vector multiplication
-// void matrix_vector_multiply()
-// {
-//     int i, num_threads;
-// #pragma omp parallel private(i) shared(matrix, vector) reduction(+ : result)
-//     {
-//         num_threads = omp_get_num_threads();
-// #pragma omp parallel for private(i) shared(matrix, vector, result)
-//         for (i = 0; i < MATRIX_SIZE; i++)
-//         {
-//             int res = 0, j, num_threads = omp_get_num_threads();
-// #pragma omp parallel for private(j) shared(matrix, vector, result)
-//             // #pragma omp parallel for reduction(+ : result[i]) private(i) shared(matrix, vector)
-//             // #pragma omp parallel for reduction(+ : res) private(i) shared(matrix, vector)
-//             {
-//                 for (j = 0; j < MATRIX_SIZE; j++)
-//                 {
-//                     result[i] += matrix[i][j] * vector[j];
-//                 }
-//                 // res += matrix[i][j] * vector[j];
-//             }
-//             // result[i] = res;
-//         }
-//         // printf("Number of threads: %d\n", num_threads);
-//     }
-// }
-
 // Perform matrix-vector multiplication
 void matrix_vector_multiply()
 {
-    int i, j;
+    int i;
 #pragma omp parallel private(i) shared(matrix, vector) reduction(+ : result)
     {
 #pragma omp for
-        for (i = 0; i < MATRIX_SIZE; i++)
+        for (i = 0; i <= MATRIX_SIZE - 9; i += 8)
         {
-            double res = 0;
-            for (j = 0; j < MATRIX_SIZE; j++)
-                res += matrix[i][j] * vector[j];
-            result[i] = res;
+            __m256d sum = _mm256_setzero_pd();
+            for (int j = 0; j < MATRIX_SIZE; j++)
+            {
+                __m256d a = _mm256_loadu_pd(&matrix[i][j]);
+                __m256d b = _mm256_set1_pd(vector[j]);
+                sum = _mm256_fmadd_pd(a, b, sum);
+            }
+            _mm256_storeu_pd(&result[i], sum);
+        }
+
+#pragma omp for
+        for (int i = MATRIX_SIZE / 8 * 8; i < MATRIX_SIZE; i++)
+        {
+            double sum = 0;
+            for (int j = 0; j < MATRIX_SIZE; j++)
+                sum += matrix[i][j] * vector[j];
+            result[i] = sum;
         }
     }
 }
@@ -88,10 +73,8 @@ int main()
 
     // Print time taken
     printf("Time taken: %f seconds\n", elapsed_time);
-
     // Calculate total floating point operations
     long long flops = 2 * MATRIX_SIZE * MATRIX_SIZE;
-
     // Calculate GFLOPS
     double gflops = flops / (elapsed_time * 1e9);
     printf("GFLOPS: %f\n", gflops);

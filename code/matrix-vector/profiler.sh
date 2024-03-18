@@ -1,8 +1,10 @@
 #!/bin/bash
 
 make clean
+mkdir -p build
 make all
-
-sh ./run.sh > dump
+echo
+sh ./run.sh > ./build/dump
 echo 
-python analyser.py 
+python analyser.py > ./build/output
+python gen_report.py

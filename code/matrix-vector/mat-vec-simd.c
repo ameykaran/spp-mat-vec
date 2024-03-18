@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
+#include <immintrin.h>
 
 #define MATRIX_SIZE 1028
 
@@ -19,6 +20,7 @@ long long current_time()
 // Initialize matrix and vector with random values
 void initialize()
 {
+    // srand(time(NULL));
     for (int i = 0; i < MATRIX_SIZE; i++)
     {
         for (int j = 0; j < MATRIX_SIZE; j++)
@@ -30,11 +32,24 @@ void initialize()
 // Perform matrix-vector multiplication
 void matrix_vector_multiply()
 {
-    for (int i = 0; i < MATRIX_SIZE; i++)
+    for (int i = 0; i <= MATRIX_SIZE - 9; i += 8)
     {
-        result[i] = 0.0;
+        __m256d sum = _mm256_setzero_pd();
         for (int j = 0; j < MATRIX_SIZE; j++)
-            result[i] += matrix[i][j] * vector[j];
+        {
+            __m256d a = _mm256_loadu_pd(&matrix[i][j]);
+            __m256d b = _mm256_set1_pd(vector[j]);
+            sum = _mm256_fmadd_pd(a, b, sum);
+        }
+        _mm256_storeu_pd(&result[i], sum);
+    }
+
+    for (int i = MATRIX_SIZE / 8 * 8; i < MATRIX_SIZE; i++)
+    {
+        double sum = 0;
+        for (int j = 0; j < MATRIX_SIZE; j++)
+            sum += matrix[i][j] * vector[j];
+        result[i] = sum;
     }
 }
 

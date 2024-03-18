@@ -1,43 +1,22 @@
-for i in {1..25}; do
-    echo "Running iteration $i"
-    ./mat-vec0  
-    echo Finished O0
-done
+#!/bin/bash
 
 for i in {1..25}; do
-    echo "Running iteration $i"
-    ./mat-vec1  
-    echo Finished O1
-done
+    ./build/mat-vec0  
+    ./build/mat-vec1  
+    ./build/mat-vec2  
+    ./build/mat-vec3  
+    ./build/mat-vec-vec  
+    ./build/mat-vec-omp  
+    ./build/mat-vec-omp-vec  
+    ./build/mat-vec-simd  
+    ./build/mat-vec-simd-vec
+    ./build/mat-vec-simd-omp
 
-for i in {1..25}; do
-    echo "Running iteration $i"
-    ./mat-vec2  
-    echo Finished O2
-done
+    echo $i
 
-for i in {1..25}; do
-    echo "Running iteration $i"
-    ./mat-vec3  
-    echo Finished O3
-done
-
-for i in {1..25}; do
-    echo "Running iteration $i"
-    ./mat-vec-vec  
-    echo Finished Vec
-done
-
-for i in {1..25}; do
-    echo "Running iteration $i"
-    ./mat-vec-omp  
-    echo Finished OMP
-done
-
-for i in {1..25}; do
-    echo "Running iteration $i"
-    ./mat-vec-omp-vec  
-    echo Finished OMP-Vec
+    if (( $i % 5 == 0 )); then
+        echo "Finished iteration $i" 1>&2
+    fi
 done
 
 echo "Done"
