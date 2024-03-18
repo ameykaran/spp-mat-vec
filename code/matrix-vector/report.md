@@ -1,5 +1,7 @@
 ## System Information
-```### lscpuArchitecture:                       x86_64
+### lscpu
+
+```Architecture:                       x86_64
 CPU op-mode(s):                     32-bit, 64-bit
 Address sizes:                      39 bits physical, 48 bits virtual
 Byte Order:                         Little Endian
@@ -43,17 +45,17 @@ Vulnerability Tsx async abort:      Not affected
 ## Observations
 Optimisation | Min Time (ms) | Avg. Time (ms) | Max Time (ms) | Min GLOPs | Avg GFLOPs | Max GFLOPs | Speedup Avg. (Max)
 ---|---|---|---|---|---|---|---
-O0 | 1.857ms | 2.00312ms | 2.616ms | 0.807939 | 1.060495 | 1.138163 | x1.0 (x1.0)
-O1 | 0.517ms | 0.62696ms | 0.749ms | 2.821853 | 3.406938 | 4.088139 | x3.21 (x3.59)
-O2 | 0.544ms | 0.6352ms | 0.764ms | 2.76645 | 3.35049 | 3.885235 | x3.16 (x3.41)
-O3 | 0.534ms | 0.66316ms | 0.806ms | 2.622293 | 3.209714 | 3.957993 | x3.03 (x3.48)
-Vec | 0.3ms | 0.36028ms | 0.51ms | 4.144251 | 5.962026 | 7.045227 | x5.62 (x6.19)
-Omp | 0.193ms | 0.26876ms | 0.39ms | 5.419405 | 8.138677 | 10.95113 | x7.67 (x9.62)
-OmpVec | 0.132ms | 0.19012ms | 0.279ms | 7.575513 | 11.611427 | 16.011879 | x10.95 (x14.07)
-SIMD | 0.134ms | 0.14876ms | 0.182ms | 11.613011 | 14.293437 | 15.772896 | x13.48 (x13.86)
-SIMD-Vec | 0.134ms | 0.1484ms | 0.275ms | 7.685702 | 14.529489 | 15.772896 | x13.7 (x13.86)
-SIMD-Omp | 0.062ms | 0.08848ms | 0.198ms | 10.674586 | 25.773588 | 34.089806 | x24.3 (x29.95)
-SIMD-OmpVec | 0.058ms | 0.09352ms | 0.192ms | 11.008167 | 25.137523 | 36.440828 | x23.7 (x32.02)
+O0 | 1.849ms | 2.01976ms | 2.219ms | 0.952487 | 1.049435 | 1.143087 | x1.0 (x1.0)
+O1 | 0.519ms | 0.63304ms | 0.771ms | 2.741333 | 3.377003 | 4.072385 | x3.22 (x3.56)
+O2 | 0.511ms | 0.64296ms | 1.003ms | 2.107246 | 3.338444 | 4.136141 | x3.18 (x3.62)
+O3 | 0.535ms | 0.67028ms | 0.967ms | 2.185696 | 3.223062 | 3.950594 | x3.07 (x3.46)
+Vec | 0.285ms | 0.37172ms | 0.471ms | 4.487406 | 5.779853 | 7.416028 | x5.51 (x6.49)
+Omp | 0.193ms | 0.26068ms | 0.401ms | 5.270743 | 8.41994 | 10.95113 | x8.02 (x9.58)
+OmpVec | 0.127ms | 0.24704ms | 1.472ms | 1.435848 | 11.031497 | 16.642268 | x10.51 (x14.56)
+SIMD | 0.134ms | 0.15568ms | 0.286ms | 7.390098 | 13.891682 | 15.772896 | x13.24 (x13.8)
+SIMD-Vec | 0.133ms | 0.14372ms | 0.177ms | 11.941062 | 14.752421 | 15.891489 | x14.06 (x13.9)
+SIMD-Omp | 0.063ms | 0.08956ms | 0.176ms | 12.008909 | 26.133695 | 33.548698 | x24.9 (x29.35)
+SIMD-OmpVec | 0.058ms | 0.09728ms | 0.211ms | 10.01691 | 25.174953 | 36.440828 | x23.99 (x31.88)
 
 
 The max GFLOPs achieved: 36.440828 with SIMD-OmpVec optimisation.
@@ -65,4 +67,14 @@ The min time achieved: 0.058ms with SIMD-OmpVec optimisation.
 The best optimisation I could get is upto 36.44 GFLOPs (x32 speedup) with SIMD, OMP and other compiler flags
 
 All the flags used can be found in the [Makefile](Makefile)
+
+
+
+OMP performance was the best at 4 threads as can be observed in the figure below
+
+![OMP Performance](threads.png)
+
+The code was run with battery plugged in. Performance almost halved when running on battery
+
+The code was run on a 20 core Intel i7 12th gen machine
 

@@ -33,33 +33,6 @@ void initialize()
     }
 }
 
-// // Perform matrix-vector multiplication
-// void matrix_vector_multiply()
-// {
-//     int i, num_threads;
-// #pragma omp parallel private(i) shared(matrix, vector) reduction(+ : result)
-//     {
-//         num_threads = omp_get_num_threads();
-// #pragma omp parallel for private(i) shared(matrix, vector, result)
-//         for (i = 0; i < MATRIX_SIZE; i++)
-//         {
-//             int res = 0, j, num_threads = omp_get_num_threads();
-// #pragma omp parallel for private(j) shared(matrix, vector, result)
-//             // #pragma omp parallel for reduction(+ : result[i]) private(i) shared(matrix, vector)
-//             // #pragma omp parallel for reduction(+ : res) private(i) shared(matrix, vector)
-//             {
-//                 for (j = 0; j < MATRIX_SIZE; j++)
-//                 {
-//                     result[i] += matrix[i][j] * vector[j];
-//                 }
-//                 // res += matrix[i][j] * vector[j];
-//             }
-//             // result[i] = res;
-//         }
-//         // printf("Number of threads: %d\n", num_threads);
-//     }
-// }
-
 // Perform matrix-vector multiplication
 void matrix_vector_multiply()
 {

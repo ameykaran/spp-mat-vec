@@ -11,8 +11,8 @@ for i in {1..25}; do
     ./build/mat-vec-simd  
     ./build/mat-vec-simd-vec
     ./build/mat-vec-simd-omp
-
-    echo $i
+    ./build/mat-vec-simd-omp-vec
+    echo
 
     if (( $i % 5 == 0 )); then
         echo "Finished iteration $i" 1>&2

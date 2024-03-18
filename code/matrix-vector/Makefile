@@ -1,6 +1,6 @@
-all: matvec_vanilla matvec_opt1 matvec_opt2 matvec_opt3 matvec_vec matvec_omp matvec_omp_vec matvec_simd matvec_simd_vec matvec_simd_omp
+all: matvec_vanilla matvec_opt1 matvec_opt2 matvec_opt3 matvec_vec matvec_omp matvec_omp_vec matvec_simd matvec_simd_vec matvec_simd_omp matvec_simd_omp_vec
 
-vec_flags=-march=native -ftree-vectorize -funroll-loops -ffast-math -fopt-info-vec-optimized
+vec_flags=-march=native -ftree-vectorize -funroll-loops -ffast-math
 omp_flags=-fopenmp
 simd_flags=-mavx2 -mfma
 general_flags=-O3 -m64
@@ -37,7 +37,7 @@ matvec_simd_omp:
 	gcc $(general_flags) $(simd_flags) $(omp_flags) mat-vec-simd-omp.c -o build/mat-vec-simd-omp
 
 matvec_simd_omp_vec:
-	gcc $(general_flags) $(simd_flags) $(omp_flags) $(vec_flags)  mat-vec-simd-omp.c -o build/mat-vec-simd-omp
+	gcc $(general_flags) $(simd_flags) $(omp_flags) $(vec_flags)  mat-vec-simd-omp.c -o build/mat-vec-simd-omp-vec
 
 clean:
 	rm -r build 
